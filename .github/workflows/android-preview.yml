@@ -2,6 +2,9 @@ name: Build Android preview APK
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.build-trigger'
 
 permissions:
   contents: write
