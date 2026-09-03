@@ -3,7 +3,7 @@
     "name": "Sapiver Music",
     "slug": "music-theory-path",
     "owner": "sapiverforge",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -12,7 +12,7 @@
     },
     "android": {
       "package": "uk.co.sapiverpress.musictheorypath",
-      "versionCode": 2,
+      "versionCode": 3,
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO"
       ],
