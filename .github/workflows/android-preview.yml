@@ -12,7 +12,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 20
     steps:
       - name: Check out source
         uses: actions/checkout@v4
@@ -23,28 +23,20 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install compatible dependencies
+        run: npm install
 
-      - name: Validate source
-        run: npm run typecheck
+      - name: Validate source and Expo compatibility
+        run: |
+          npm run typecheck
+          npx expo-doctor
 
       - name: Register or link Expo project
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: npx eas-cli@latest project:init --account sapiverforge --non-interactive
 
-      - name: Save Expo project link
-        run: |
-          if ! git diff --quiet -- app.json; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add app.json
-            git commit -m "Link Expo EAS project"
-            git push
-          fi
-
-      - name: Build installable APK
+      - name: Submit installable APK build
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        run: npx eas-cli@latest build --platform android --profile preview --non-interactive --wait
+        run: npx eas-cli@latest build --platform android --profile preview --non-interactive
